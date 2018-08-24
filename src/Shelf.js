@@ -8,9 +8,9 @@ function Shelf(props){
 	const booksToShow = Object.values(props.currentlyReadingBooks);
 	return(
 		<div className="bookshelf">
-      <h2 className="bookshelf-title">{shelfTitle}</h2>
-      <ShowBookShelf BooksToShow = { booksToShow }/>
-    </div>
+			<h2 className="bookshelf-title">{ shelfTitle }</h2>
+			<ShowBookShelf BooksToShow = { booksToShow }/>
+		</div>
 	)
 }
 
