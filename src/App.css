@@ -44,12 +44,6 @@ body, .app {
   text-align: center;
 }
 
-.book-cover{
-  width: 128; 
-  height: 193;
-  backgroundImage: 'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")' ;
-}
-
 .open-search {
   position: fixed;
   right: 25px;
@@ -174,6 +168,7 @@ body, .app {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee;
 }
+
 .book-cover-title {
   padding: 20px 10px 0;
   text-align: center;

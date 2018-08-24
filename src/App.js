@@ -1,40 +1,55 @@
 import React, { Component } from 'react'
-// import * as BooksAPI from './BooksAPI'
-import CurrentlyReading from './CurrentlyReading'
+import * as BooksAPI from './BooksAPI'
+import Shelf from './Shelf'
 import './App.css'
 
 class BooksApp extends Component {
-  // state = {
-  //   *
-  //    * TODO: Instead of using this state variable to keep track of which page
-  //    * we're on, use the URL in the browser's address bar. This will ensure that
-  //    * users can use the browser's back and forward buttons to navigate between
-  //    * pages, as well as provide a good URL they can bookmark and share.
-     
-  //   showSearchPage: false
-  // }
+  state = {
+    Books :[]
+  }
+
+  componentDidMount() {
+    BooksAPI.getAll()
+     .then((Books) => {
+				this.setState(() => ({
+					Books
+				}))
+     })
+  }
+
 
   render() {
+  	const books = this.state.Books;
+    let currentlyReadingBooks = []
+    let wantToReadBooks = []
+    let readBooks = []
+
+    if(books.length > 0){
+      currentlyReadingBooks = books.filter(
+        (book) => book.shelf ==='currentlyReading');
+      wantToReadBooks = books.filter(
+        (book) => book.shelf ==='wantToRead');
+      readBooks = books.filter(
+        (book) => book.shelf ==='read');
+    }
+
     return (
-      <div className="app">
-        {// Search book
-        //Currently Reading
-        //Wishlist
-        //Read
-        }
+      books.length > 0 &&(
+    	<div className="app">
         <div className="list-books">
           <div className="list-books-title">
             <h1>MyReads</h1>
           </div>
           <div className="list-books-content">
-            <CurrentlyReading />
-            {/*<Wishlist />
-            <Read />*/}
+            <Shelf shelfTitle = 'Currently Reading' currentlyReadingBooks ={ currentlyReadingBooks } />
+            <Shelf shelfTitle = 'Want to read' currentlyReadingBooks ={ wantToReadBooks } />
+            <Shelf shelfTitle = 'Read' currentlyReadingBooks ={ readBooks } />
           </div>
         </div>
       </div>
+      )
     )
   }
 }
 
-export default BooksApp
+export default BooksApp;
