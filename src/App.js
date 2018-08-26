@@ -17,8 +17,21 @@ class BooksApp extends Component {
 		 })
 	}
 
-	moveBookToShelf = () => {
-		console.log("called moveBookToShelf")
+	moveBookToShelf = (bookToMove,changedShelf) => {
+		BooksAPI.update(bookToMove,changedShelf)
+			.then(() => {
+				this.setState((prevState) => ({
+					Books : 
+						prevState.Books.map((book) =>{
+							if(book.id === bookToMove.id)
+								{
+									book.shelf = changedShelf
+								}
+								return book;
+							}
+						)
+				}))
+			})
 	}
 
 
@@ -38,26 +51,27 @@ class BooksApp extends Component {
 		}
 
 		return (
-			books.length > 0 &&(
 			<div className="app">
 				<div className="list-books">
 					<div className="list-books-title">
 						<h1>MyReads</h1>
 					</div>
-					<div className="list-books-content">
-						<Shelf shelfTitle = 'Currently Reading' 
-							BooksOfShelf ={ currentlyReadingBooks } 
-							OnBookMove = {this.moveBookToShelf} />
-						<Shelf shelfTitle = 'Want to read' 
-							BooksOfShelf ={ wantToReadBooks } 
-							OnBookMove = {this.moveBookToShelf} />
-						<Shelf shelfTitle = 'Read' 
-							BooksOfShelf ={ readBooks } 
-							OnBookMove = {this.moveBookToShelf} />
-					</div>
+					{books.length === 0 && <h3>Populating...</h3>}
+					{books.length > 0 &&(
+							<div className="list-books-content">
+								<Shelf shelfTitle = 'Currently Reading' 
+									BooksOfShelf ={ currentlyReadingBooks } 
+									OnBookMove = {this.moveBookToShelf} />
+								<Shelf shelfTitle = 'Want to read' 
+									BooksOfShelf ={ wantToReadBooks } 
+									OnBookMove = {this.moveBookToShelf} />
+								<Shelf shelfTitle = 'Read' 
+									BooksOfShelf ={ readBooks } 
+									OnBookMove = {this.moveBookToShelf} />
+							</div>
+					)}
 				</div>
 			</div>
-			)
 		)
 	}
 }

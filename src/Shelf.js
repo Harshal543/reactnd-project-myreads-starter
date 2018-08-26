@@ -7,7 +7,6 @@ function Shelf(props){
 	const shelfTitle = props.shelfTitle
 	const booksToShow = Object.values(props.BooksOfShelf)
 	const onBookMovefunc = props.OnBookMove
-	// console.log(typeof(onBookMovefunc))
 	return(
 		<div className="bookshelf">
 			<h2 className="bookshelf-title">{ shelfTitle }</h2>

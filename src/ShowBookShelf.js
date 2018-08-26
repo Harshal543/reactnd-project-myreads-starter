@@ -15,7 +15,6 @@ function ShowBookShelf(props){
 								<div className="book">
 									<div className="book-top">
 										<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}>
-											{/*<div className="book-cover-title">{book.title}</div>*/}
 										</div>
 										<div className="book-shelf-changer">
 											<select value = {book.shelf} 
@@ -42,14 +41,18 @@ function ShowBookShelf(props){
 
 
 const onChangeHandle = (bookToMove,changedShelf,onBookMoveFunc) =>{
-	console.log("change detected")
-	console.log(bookToMove,changedShelf)
-	onBookMoveFunc()
+	onBookMoveFunc(bookToMove,changedShelf)
 } 
 
 
 ShowBookShelf.propTypes = {
 		BooksToShow : PropTypes.array.isRequired,
+		OnBookMovefunc : PropTypes.func.isRequired
+}
+
+onChangeHandle.propTypes = {
+		bookToMove : PropTypes.object.isRequired,
+		changedShelf : PropTypes.string.isRequired,
 		OnBookMovefunc : PropTypes.func.isRequired
 }
 
