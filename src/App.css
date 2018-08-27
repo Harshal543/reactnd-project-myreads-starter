@@ -10,9 +10,10 @@ body, .app {
 
 /* main page */
 
-h3{
+h4{
   text-align: center;
   padding: 10px;
+  color: #546E7A
 }
 
 .list-books-title {

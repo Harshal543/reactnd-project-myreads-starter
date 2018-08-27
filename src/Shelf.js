@@ -10,8 +10,13 @@ function Shelf(props){
 	return(
 		<div className="bookshelf">
 			<h2 className="bookshelf-title">{ shelfTitle }</h2>
-			<ShowBookShelf BooksToShow = { booksToShow } 
-				OnBookMovefunc = { onBookMovefunc } />
+			{ booksToShow.length === 0 ? (
+					<h4>Looks like no books here..</h4>
+				):(
+					<ShowBookShelf BooksToShow = { booksToShow } 
+					OnBookMovefunc = { onBookMovefunc } />
+				)
+			}
 		</div>
 	)
 }

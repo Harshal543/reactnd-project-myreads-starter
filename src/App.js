@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
-import Shelf from './Shelf'
+import ShowBooks from './ShowBooks'
+import SearchBooks from './SearchBooks'
 import './App.css'
+import { Route } from 'react-router-dom'
+
 
 class BooksApp extends Component {
 	state = {
@@ -17,11 +20,43 @@ class BooksApp extends Component {
 		 })
 	}
 
-	moveBookToShelf = (bookToMove,changedShelf) => {
+	updateShelf = (bookToMove,changedShelf) => {
 		BooksAPI.update(bookToMove,changedShelf)
 			.then(() => {
+				this.localMoveBook(bookToMove,changedShelf)
+			})
+	}
+
+	localMoveBook = (bookToMove,changedShelf) =>{
+		const newBookState = this.state.Books;
+		let flag = true
+		newBookState.map((book) =>{
+			if(book.id === bookToMove.id){
+				flag = false
+			}
+			return 0
+		})
+
+		if(flag){
+			const bookToAdd = bookToMove;
+			bookToAdd.shelf = changedShelf;
+			newBookState.push(bookToAdd);
+			// console.log('local move book',bookToMove)
+			this.setState((prevState) => ({
+				Books : newBookState
+			}))
+		}
+		else{
+			if(changedShelf === 'none'){
+					this.setState((prevState) =>({
+						Books: prevState.Books.filter((book) =>{
+							return book.id !== bookToMove.id
+						})
+					}))
+			}
+			else{
 				this.setState((prevState) => ({
-					Books : 
+					Books :
 						prevState.Books.map((book) =>{
 							if(book.id === bookToMove.id)
 								{
@@ -31,46 +66,23 @@ class BooksApp extends Component {
 							}
 						)
 				}))
-			})
+			}
+		}
 	}
 
 
 	render() {
-		const books = this.state.Books;
-		let currentlyReadingBooks = []
-		let wantToReadBooks = []
-		let readBooks = []
-
-		if(books.length > 0){
-			currentlyReadingBooks = books.filter(
-				(book) => book.shelf ==='currentlyReading');
-			wantToReadBooks = books.filter(
-				(book) => book.shelf ==='wantToRead');
-			readBooks = books.filter(
-				(book) => book.shelf ==='read');
-		}
-
+		const books = this.state.Books
 		return (
 			<div className="app">
-				<div className="list-books">
-					<div className="list-books-title">
-						<h1>MyReads</h1>
-					</div>
-					{books.length === 0 && <h3>Populating...</h3>}
-					{books.length > 0 &&(
-							<div className="list-books-content">
-								<Shelf shelfTitle = 'Currently Reading' 
-									BooksOfShelf ={ currentlyReadingBooks } 
-									OnBookMove = {this.moveBookToShelf} />
-								<Shelf shelfTitle = 'Want to read' 
-									BooksOfShelf ={ wantToReadBooks } 
-									OnBookMove = {this.moveBookToShelf} />
-								<Shelf shelfTitle = 'Read' 
-									BooksOfShelf ={ readBooks } 
-									OnBookMove = {this.moveBookToShelf} />
-							</div>
-					)}
-				</div>
+				<Route exact path='/' render={() => (
+					<ShowBooks Books = { books }
+						MoveBookToShelf = { this.updateShelf }/>
+				)} />
+				<Route path='/search' render = {() =>(
+					<SearchBooks BooksInShelfs = { books }
+						MoveBookToShelf = { this.updateShelf }/>
+				)} />
 			</div>
 		)
 	}
