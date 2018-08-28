@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
+import ListSearchBooks from './ListSearchBooks'
 import { Link } from 'react-router-dom'
-import Proptype from 'prop-types'
+import PropTypes from 'prop-types'
 
 class SearchBooks extends Component{
 	static propTypes ={
-		BooksInShelfs : Proptype.array.isRequired,
-		MoveBookToShelf : Proptype.func.isRequired
+		BooksInShelfs : PropTypes.array.isRequired,
+		MoveBookToShelf : PropTypes.func.isRequired
 	}
 
 	state = {
@@ -16,14 +17,18 @@ class SearchBooks extends Component{
 	}
 
 	updateSearchQuery = (query) => {
-		BooksAPI.search(query)
-			.then((retriveBooks) => {
+		BooksAPI.search(query.trim())
+			.then((searchedBooks) => {
 				this.setState(() => ({
-					retrivedBooks: retriveBooks
+					retrivedBooks: searchedBooks
+				}))
+			},(error) =>{
+				this.setState(() => ({
+					retrivedBooks: []
 				}))
 			})
 		this.setState(() => ({
-			SearchQuery: query.trim()
+			SearchQuery: query
 		}))
 	}
 
@@ -41,9 +46,7 @@ class SearchBooks extends Component{
 
 	render(){
 		const searchQuery = this.state.SearchQuery;
-		let retriveBooks = this.state.retrivedBooks;
-		// console.log(retriveBooks)
-		// console.log(typeof(retriveBooks))
+		let retrivedBooks = this.state.retrivedBooks;
 		return(
 			<div className="search-books">
 				<div className="search-books-bar">
@@ -57,44 +60,22 @@ class SearchBooks extends Component{
 				</div>
 				<div className="search-books-results">
 					<ol className="books-grid">
-						{ retriveBooks !== undefined && (
-								retriveBooks.length === 0 ? (
+						{ retrivedBooks.hasOwnProperty('error') ? (
+									<h4 style={{color : '#FF1744'}}>Oops..No books found</h4>
+								):(
+								(retrivedBooks.length === 0 || searchQuery.trim() === '') ? (
 									<h4>Books are shown here..</h4>
 								):(
-								retriveBooks.map((book) => {
-									return (
-										<li key={book.id}>
-											<div className="book">
-												<div className="book-top">
-													<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}>
-													</div>
-													<div className="book-shelf-changer">
-														<select value = "none"
-															onChange= {(event) => onChangeHandle(book,event.target.value,this.props.MoveBookToShelf)} >
-																<option value="move" disabled>Move to...</option>
-																<option value="currentlyReading">Currently Reading</option>
-																<option value="wantToRead">Want to Read</option>
-																<option value="read">Read</option>
-																<option value="none">None</option>
-														</select>
-													</div>
-												</div>
-												<div className="book-title">{book.title}</div>
-												<div className="book-authors">{book.authors}</div>
-											</div>
-										</li>
-									)
-								})
-						))}
+									<ListSearchBooks BooksInShelfs = { this.props.BooksInShelfs }
+										MoveBookToShelf = { this.props.MoveBookToShelf }
+										RetrivedBooks = { retrivedBooks }/>
+								)
+						)}
 					</ol>
 				</div>
 			</div>
 		)
 	}
-}
-
-const onChangeHandle = (bookToMove,changedShelf,onBookMoveFunc) =>{
-	onBookMoveFunc(bookToMove,changedShelf)
 }
 
 export default SearchBooks;

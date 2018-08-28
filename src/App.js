@@ -29,19 +29,18 @@ class BooksApp extends Component {
 
 	localMoveBook = (bookToMove,changedShelf) =>{
 		const newBookState = this.state.Books;
-		let flag = true
+		let isOldBook = true
 		newBookState.map((book) =>{
 			if(book.id === bookToMove.id){
-				flag = false
+				isOldBook = false
 			}
 			return 0
 		})
 
-		if(flag){
+		if(isOldBook){
 			const bookToAdd = bookToMove;
 			bookToAdd.shelf = changedShelf;
 			newBookState.push(bookToAdd);
-			// console.log('local move book',bookToMove)
 			this.setState((prevState) => ({
 				Books : newBookState
 			}))

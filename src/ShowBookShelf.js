@@ -14,8 +14,17 @@ function ShowBookShelf(props){
 							<li key={book.id}>
 								<div className="book">
 									<div className="book-top">
-										<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}>
-										</div>
+										{
+										book.hasOwnProperty('imageLinks') ? (
+											<div className="book-cover"
+												style={{ width: 128,
+																	height: 193,
+																	backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}>
+											</div>
+											):(
+											<div className="book-cover-title">{book.title}</div>
+											)
+										}
 										<div className="book-shelf-changer">
 											<select value = {book.shelf}
 												onChange = {(event) => onChangeHandle(book,event.target.value,props.OnBookMovefunc)} >
