@@ -15,7 +15,7 @@ function ShowBookShelf(props){
 								<div className="book">
 									<div className="book-top">
 										{
-										book.hasOwnProperty('imageLinks') ? (
+										book.hasOwnProperty('imageLinks') ? (//check if book has image
 											<div className="book-cover"
 												style={{ width: 128,
 																	height: 193,
@@ -49,7 +49,7 @@ function ShowBookShelf(props){
 }
 
 
-const onChangeHandle = (bookToMove,changedShelf,onBookMoveFunc) =>{
+const onChangeHandle = (bookToMove,changedShelf,onBookMoveFunc) =>{//for check props
 	onBookMoveFunc(bookToMove,changedShelf)
 }
 

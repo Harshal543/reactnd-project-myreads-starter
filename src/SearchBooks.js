@@ -32,7 +32,7 @@ class SearchBooks extends Component{
 		}))
 	}
 
-	queryEmpty = (query) => {
+	queryIsEmpty = (query) => {//is query empty
 		if(query.trim() !== ''){
 			this.updateSearchQuery(query)
 		}
@@ -54,16 +54,16 @@ class SearchBooks extends Component{
 					<div className="search-books-input-wrapper">
 						<input type="text" placeholder="Search by title or author"
 							value= { searchQuery }
-							onChange={(event) => this.queryEmpty(event.target.value)}
+							onChange={(event) => this.queryIsEmpty(event.target.value)}
 						/>
 					</div>
 				</div>
 				<div className="search-books-results">
 					<ol className="books-grid">
-						{ retrivedBooks.hasOwnProperty('error') ? (
+						{ retrivedBooks.hasOwnProperty('error') ? (//empty array returned by function
 									<h4 style={{color : '#FF1744'}}>Oops..No books found</h4>
 								):(
-								(retrivedBooks.length === 0 || searchQuery.trim() === '') ? (
+								(retrivedBooks.length === 0 || searchQuery.trim() === '') ? (//initial state
 									<h4>Books are shown here..</h4>
 								):(
 									<ListSearchBooks BooksInShelfs = { this.props.BooksInShelfs }

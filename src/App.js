@@ -23,21 +23,21 @@ class BooksApp extends Component {
 	updateShelf = (bookToMove,changedShelf) => {
 		BooksAPI.update(bookToMove,changedShelf)
 			.then(() => {
-				this.localMoveBook(bookToMove,changedShelf)
+				this.localMoveBook(bookToMove,changedShelf)//local change
 			})
 	}
 
 	localMoveBook = (bookToMove,changedShelf) =>{
 		const newBookState = this.state.Books;
-		let isOldBook = true
-		newBookState.map((book) =>{
+		let isNewBook = true
+		newBookState.map((book) =>{// check if book is in state
 			if(book.id === bookToMove.id){
-				isOldBook = false
+				isNewBook = false
 			}
 			return 0
-		})
+		})//is there better way to do this?
 
-		if(isOldBook){
+		if(isNewBook){//add new book
 			const bookToAdd = bookToMove;
 			bookToAdd.shelf = changedShelf;
 			newBookState.push(bookToAdd);
@@ -46,15 +46,15 @@ class BooksApp extends Component {
 			}))
 		}
 		else{
-			if(changedShelf === 'none'){
+			if(changedShelf === 'none'){//removing book from state
 					this.setState((prevState) =>({
-						Books: prevState.Books.filter((book) =>{
-							return book.id !== bookToMove.id
-						})
+						Books: prevState.Books.filter((book) =>
+							book.id !== bookToMove.id
+						)
 					}))
 			}
 			else{
-				this.setState((prevState) => ({
+				this.setState((prevState) => ({//updating shelf of book in state
 					Books :
 						prevState.Books.map((book) =>{
 							if(book.id === bookToMove.id)

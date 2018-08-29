@@ -10,7 +10,7 @@ function ShowBooks(props){
 	let wantToReadBooks = []
 	let readBooks = []
 
-	if(books.length > 0){
+	if(books.length > 0){//sort book by shelf
 		currentlyReadingBooks = books.filter(
 			(book) => book.shelf ==='currentlyReading');
 		wantToReadBooks = books.filter(

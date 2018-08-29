@@ -8,7 +8,7 @@ function ListSearchBooks(props) {
 	return(
 		retrivedBooks.map((book) => {
 			booksInShelfs.map((shelfBook) => {
-				if(shelfBook.id === book.id){
+				if(shelfBook.id === book.id){//check if book is in bookshelf
 					book.shelf = shelfBook.shelf
 				}
 				return book
@@ -21,7 +21,7 @@ function ListSearchBooks(props) {
 					<div className="book">
 						<div className="book-top">
 							{
-							book.hasOwnProperty('imageLinks') ? (
+							book.hasOwnProperty('imageLinks') ? (//check if book has image
 								<div className="book-cover"
 									style={{ width: 128,
 														height: 193,
@@ -52,7 +52,7 @@ function ListSearchBooks(props) {
 	)
 }
 
-const onChangeHandle = (bookToMove,changedShelf,onBookMoveFunc) =>{
+const onChangeHandle = (bookToMove,changedShelf,onBookMoveFunc) =>{//for check props
 	onBookMoveFunc(bookToMove,changedShelf)
 }
 
