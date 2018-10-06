@@ -7,6 +7,8 @@ It maintains 3 shelves viz.
 * Want to Read / Wish list: Books you wish to read in future
 * Read: Books you had read.
 
+This app is hosted on [MyReads](https://my-reads-app-543.herokuapp.com/)
+
 ##  Note :
  This is my submission for the MyReads project at Udacity, part of the React Nano-degree.
 
