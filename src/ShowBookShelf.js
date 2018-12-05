@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 
 function ShowBookShelf(props){
-	const BooksToShow = Object.values(props.BooksToShow);
+	const BooksToShow = props.BooksToShow;
 	return(
 		<div className="bookshelf-books">
 			<ol className="books-grid">
@@ -15,7 +15,7 @@ function ShowBookShelf(props){
 								<div className="book">
 									<div className="book-top">
 										{
-										book.hasOwnProperty('imageLinks') ? (//check if book has image
+										book.imageLinks ? (//check if book has image
 											<div className="book-cover"
 												style={{ width: 128,
 																	height: 193,
@@ -37,7 +37,10 @@ function ShowBookShelf(props){
 										</div>
 									</div>
 									<div className="book-title">{book.title}</div>
-									<div className="book-authors">{book.authors}</div>
+									{
+										/*<div className="book-authors">{book.authors.join(", ")}</div>*/
+										book.authors.map((author) => <div key={author} className="book-authors">{author}</div>)
+									}
 								</div>
 							</li>
 						)
