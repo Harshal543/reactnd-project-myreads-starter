@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import ShowBooks from './ShowBooks'
 import SearchBooks from './SearchBooks'
+import ErrorPage from './Page404'
 import './App.css'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 
 class BooksApp extends Component {
@@ -35,7 +36,7 @@ class BooksApp extends Component {
 				isNewBook = false
 			}
 			return 0
-		})//is there better way to do this?
+		})
 
 		if(isNewBook){//add new book
 			const bookToAdd = bookToMove;
@@ -74,14 +75,17 @@ class BooksApp extends Component {
 		const books = this.state.Books
 		return (
 			<div className="app">
-				<Route exact path='/' render={() => (
-					<ShowBooks Books = { books }
-						MoveBookToShelf = { this.updateShelf }/>
-				)} />
-				<Route path='/search' render = {() =>(
-					<SearchBooks BooksInShelfs = { books }
-						MoveBookToShelf = { this.updateShelf }/>
-				)} />
+				<Switch>
+					<Route exact path='/' render={() => (
+						<ShowBooks Books = { books }
+							MoveBookToShelf = { this.updateShelf }/>
+					)} />
+					<Route exact path='/search' render = {() =>(
+						<SearchBooks BooksInShelfs = { books }
+							MoveBookToShelf = { this.updateShelf }/>
+					)} />
+					<Route component = { ErrorPage } />
+				</Switch>
 			</div>
 		)
 	}
