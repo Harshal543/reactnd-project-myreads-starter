@@ -9,14 +9,14 @@ import { Route, Switch } from 'react-router-dom'
 
 class BooksApp extends Component {
 	state = {
-		Books :[]
+		books :[]
 	}
 
 	componentDidMount() {
 		BooksAPI.getAll()
-			.then((Books) => {
+			.then((books) => {
 				this.setState(() => ({
-					Books
+					books
 				}))
 		 })
 	}
@@ -28,56 +28,30 @@ class BooksApp extends Component {
 			})
 	}
 
-	localMoveBook = (bookToMove,changedShelf) =>{
-		const newBookState = this.state.Books;
-		let isNewBook = true
-		newBookState.map((book) =>{// check if book is in state
-			if(book.id === bookToMove.id){
-				isNewBook = false
-			}
-			return 0
-		})
 
-		if(isNewBook){//add new book
-			const bookToAdd = bookToMove;
-			bookToAdd.shelf = changedShelf;
-			newBookState.push(bookToAdd);
+	localMoveBook = (bookToMove,changedShelf) => {
+		bookToMove.shelf = changedShelf
+		if(changedShelf === 'none') { // remove book from state
 			this.setState((prevState) => ({
-				Books : newBookState
+				books: prevState.books.filter((book) =>
+					book.id !== bookToMove.id)
 			}))
 		}
-		else{
-			if(changedShelf === 'none'){//removing book from state
-					this.setState((prevState) =>({
-						Books: prevState.Books.filter((book) =>
-							book.id !== bookToMove.id
-						)
-					}))
-			}
-			else{
-				this.setState((prevState) => ({//updating shelf of book in state
-					Books :
-						prevState.Books.map((book) =>{
-							if(book.id === bookToMove.id)
-								{
-									book.shelf = changedShelf
-								}
-								return book;
-							}
-						)
-				}))
-			}
+		else {
+			this.setState((prevState) => ({ // adding book or updating book shelf
+				books: prevState.books.filter((book) =>
+					book.id !== bookToMove.id).concat(bookToMove)
+			}))
 		}
 	}
 
-
 	render() {
-		const books = this.state.Books
+		const books = this.state.books
 		return (
 			<div className="app">
 				<Switch>
 					<Route exact path='/' render={() => (
-						<ShowBooks Books = { books }
+						<ShowBooks books = { books }
 							MoveBookToShelf = { this.updateShelf }/>
 					)} />
 					<Route exact path='/search' render = {() =>(

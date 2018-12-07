@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 function ShowBooks(props){
-	const books = props.Books;
+	const books = props.books;
 	let currentlyReadingBooks = []
 	let wantToReadBooks = []
 	let readBooks = []
@@ -45,7 +45,7 @@ function ShowBooks(props){
 }
 
 ShowBooks.propTypes = {
-		Books : PropTypes.array.isRequired,
+		books : PropTypes.array.isRequired,
 		MoveBookToShelf : PropTypes.func.isRequired
 }
 
